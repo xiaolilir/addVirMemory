@@ -1,8 +1,7 @@
 #!/bin/bash
-#增加1G的swap空间
-#author:小伟
+#增加512的swap空间
 #blog:www.xkjs.org
-dd if=/dev/zero of=/swapfile bs=1MB count=1024
+dd if=/dev/zero of=/swapfile bs=1MB count=512
 
 #制作一个swap文件
 mkswap /swapfile
