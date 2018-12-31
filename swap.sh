@@ -1,13 +1,6 @@
 #!/bin/bash
-#增加512的swap空间
-#blog:www.xkjs.org
-dd if=/dev/zero of=/swapfile bs=1MB count=512
-
-#制作一个swap文件
-mkswap /swapfile
-
-#启动swap分区
-swapon /swapfile
-
-#添加开机自启
-echo '/swapfile               none                    swap    defaults        0 0'   >>  /etc/fstab
+SWAP="${1:-512}"
+NEW="$[SWAP*1024]"; TEMP="${NEW//?/ }"; OLD="${TEMP:1}0"
+umount /proc/meminfo 2> /dev/null
+sed "/^Swap\(Total\|Free\):/s,$OLD,$NEW," /proc/meminfo > /etc/fake_meminfo
+mount --bind /etc/fake_meminfo /proc/meminfo
